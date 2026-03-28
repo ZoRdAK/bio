@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karl Cossé — Projets</title>
+  <meta name="description" content="Projets de Karl Cossé — photographie, apps et e-commerce.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --surface-hover: #1e1e1e;
+      --border: #2a2a2a;
+      --border-hover: #3a3a3a;
+      --text: #e0e0e0;
+      --text-dim: #6b6b6b;
+      --text-muted: #444;
+      --accent: #e8976c;
+      --accent-dim: rgba(232, 151, 108, 0.12);
+      --accent-glow: rgba(232, 151, 108, 0.06);
+      --green: #4ec990;
+      --green-dim: rgba(78, 201, 144, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    .header {
+      margin-bottom: 56px;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .prompt-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .prompt-line .chevron { color: var(--accent); font-weight: 700; }
+    .prompt-line .path { color: var(--green); }
+
+    .name {
+      font-family: 'Space Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .name .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 28px;
+      background: var(--accent);
+      margin-left: 4px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    .tagline {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .tagline .highlight { color: var(--accent); }
+
+    .socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .socials a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-dim);
+      transition: all 0.2s ease;
+    }
+
+    .socials a:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .socials a svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 32px 0;
+      position: relative;
+    }
+
+    .divider::after {
+      content: '~';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg);
+      padding: 0 12px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: slideUp 0.4s ease-out forwards;
+    }
+
+    .project:nth-child(1) { animation-delay: 0.1s; }
+    .project:nth-child(2) { animation-delay: 0.17s; }
+    .project:nth-child(3) { animation-delay: 0.24s; }
+
+    .project::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-glow), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .project:hover {
+      border-color: var(--border-hover);
+      background: var(--surface-hover);
+      transform: translateY(-1px);
+    }
+
+    .project:hover::before { opacity: 1; }
+    .project:hover .project-icon { border-color: var(--accent); background: var(--accent-dim); }
+    .project:hover .project-name { color: var(--accent); }
+    .project:hover .arrow { opacity: 1; transform: translateX(0); }
+
+    .project-icon {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .project-icon img {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+    }
+
+    .project-body {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .project-name {
+      font-weight: 700;
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+
+    .arrow {
+      font-size: 12px;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: all 0.2s ease;
+    }
+
+    .project-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .project-url {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: fadeIn 0.6s ease-out 0.6s backwards;
+    }
+
+    .footer .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    @media (max-width: 480px) {
+      .container { padding: 48px 16px 80px; }
+      .name { font-size: 22px; }
+      .project { padding: 16px; gap: 12px; }
+      .project-icon { width: 38px; height: 38px; min-width: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="prompt-line">
+        <span class="chevron">></span>
+        <span class="path">~/bordeaux</span>
+        <span>whoami</span>
+      </div>
+      <h1 class="name">Karl Cossé<span class="cursor"></span></h1>
+      <p class="tagline">Photographe de mariage à Bordeaux depuis 2012, développeur et créateur de projets web. Je construis des outils et des sites qui servent au quotidien.<br><br><span class="highlight">"Dépassez les idées reçues et découvrez la véritable nature des choses."</span></p>
+      <div class="socials">
+        <a href="https://www.instagram.com/karlcosse/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="https://github.com/ZoRdAK" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <div class="section-label">Projets</div>
+
+    <div class="projects">
+
+      <a href="https://karlcosse.com" target="_blank" rel="noopener" class="project">
+        <div class="project-icon">
+          <img src="https://www.google.com/s2/favicons?domain=karlcosse.com&sz=64" alt="Karl Cossé Photographie">
+        </div>
+        <div class="project-body">
+          <div class="project-header">
+            <span class="project-name">Karl Cossé Photographie</span>
+            <span class="arrow">&rarr;</span>
+          </div>
+          <p class="project-desc">Photographe de mariage en Aquitaine depuis 2012. Reportages authentiques, corporate, automobile et immobilier.</p>
+          <p class="project-url">karlcosse.com</p>
+        </div>
+      </a>
+
+      <a href="https://tronche.net" target="_blank" rel="noopener" class="project">
+        <div class="project-icon">
+          <img src="https://www.google.com/s2/favicons?domain=tronche.net&sz=64" alt="Tronche!">
+        </div>
+        <div class="project-body">
+          <div class="project-header">
+            <span class="project-name">Tronche!</span>
+            <span class="arrow">&rarr;</span>
+          </div>
+          <p class="project-desc">App photobooth pour mariages et événements. Transforme un smartphone en photobooth avec partage instantané par QR code.</p>
+          <p class="project-url">tronche.net</p>
+        </div>
+      </a>
+
+      <a href="https://sans-bpa.com" target="_blank" rel="noopener" class="project">
+        <div class="project-icon">
+          <img src="https://www.google.com/s2/favicons?domain=sans-bpa.com&sz=64" alt="Sans BPA">
+        </div>
+        <div class="project-body">
+          <div class="project-header">
+            <span class="project-name">Sans BPA</span>
+            <span class="arrow">&rarr;</span>
+          </div>
+          <p class="project-desc">Boutique en ligne de produits réutilisables et sans BPA. Gourdes, boîtes repas, vaisselle et accessoires zéro déchet.</p>
+          <p class="project-url">sans-bpa.com</p>
+        </div>
+      </a>
+
+    </div>
+
+    <footer class="footer">
+      <span class="dot"></span>
+      <span>tous les systèmes opérationnels</span>
+    </footer>
+  </div>
+</body>
+</html>
